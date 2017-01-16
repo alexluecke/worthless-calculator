@@ -59,6 +59,25 @@ function rpnCalculator(str) {
     return acc;
 }
 
+function run() {
+    const input = document.querySelector('#operation');
+    try {
+        document.querySelector('#result').innerHTML=eval(input.value);
+    } catch(e) {
+        document.querySelector('#result').innerHTML='Input failed';
+    }
+    input.focus();
+}
+
+function runKey(event) {
+    if (event.key === 'Enter') {
+        run();
+    }
+}
+
 </script>
 
+<input value="" id="operation" type="text" size="50" onKeyUp="runKey(event)"></input>
+<input type="submit" onClick="run()"></input>
+<div id="result"></div>
 </body>
