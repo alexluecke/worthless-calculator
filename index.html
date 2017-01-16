@@ -1,0 +1,58 @@
+<body>
+
+<script>
+
+var operators = {
+    '+': { name: 'plus',  f: (a, b) => a + b },
+    '-': { name: 'minus', f: (a, b) => a - b },
+    '*': { name: 'times', f: (a, b) => a * b },
+    '/': { name: 'dividedBy', f: (a, b) => a / b | 0 } // integer division
+};
+
+// Example operator definition:
+// function plus(arg) {
+//    return ((typeof arg === 'function') ? arg() : arg) + '+';
+// }
+
+// Generate all operator definitions:
+Object.keys(operators).forEach(op => {
+    window[operators[op].name] = arg => ((typeof arg === 'function') ? arg() : arg) + op;
+});
+
+// Example number definition:
+// function one(arg) {
+//    return (typeof arg === 'string') ? calculate(1 + arg) : 1;
+// }
+
+// Generate all number definitions:
+['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'].forEach(
+    (name, value) => {
+        window[name] = (arg) => (typeof arg === 'string') ? rpnCalculator(value + arg /* order matters! */) : value;
+    }
+);
+
+// Reverse polish notation calculator since we defined our string format as being in RPN format
+function rpnCalculator(str) {
+    var stack = [];
+    var acc = 0;
+    str.replace(/\s/g, '')
+        .split('')
+        .forEach(x => {
+            let v = parseInt(x);
+            if (isNaN(v)) {
+                // all operators take 2 operands, if one is not defined the equation is malformed
+                const b = stack.pop(), a = stack.pop()
+                // order of arguments must match the verbage one(dividedBy(two)) = '12/',
+                // but 1 will not be at the top of the stack
+                acc = operators[x].f(a, b);
+                stack.push(acc);
+            } else {
+                stack.push(v);
+            }
+        });
+    return acc;
+}
+
+</script>
+
+</body>
