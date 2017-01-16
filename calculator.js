@@ -12,20 +12,22 @@ function hasOp(arg) {
 }
 
 // Example operator definition:
+//
 // function plus(arg) {
 //    return d + [(typeof arg === 'function') ? arg() : arg, '+'].join(d);
 // }
-
+//
 // Generate all operator definitions:
 Object.keys(operators).forEach(op => {
-    window[operators[op].name] = arg => d + [(typeof arg === 'function') ? arg() : arg, op].join(d);
+    window[operators[op].name] = (arg) => d + [(typeof arg === 'function') ? arg() : arg, op].join(d);
 });
 
 // Example number definition:
+//
 // function one(arg) {
 //    return (typeof arg === 'string') ? calculate(1 + arg) : 1;
 // }
-
+//
 // Generate all number definitions:
 ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven'].forEach(
     (name, value) => {
@@ -43,9 +45,9 @@ function rpnCalculator(str) {
             let v = parseInt(x);
             if (isNaN(v)) {
                 // all operators take 2 operands, if one is not defined the equation is malformed
-                const b = stack.pop(), a = stack.pop();
                 // order of arguments must match the verbage one(dividedBy(two)) = '12/',
                 // but 1 will not be at the top of the stack
+                const b = stack.pop(), a = stack.pop();
                 acc = operators[x].f(a, b);
                 stack.push(acc);
             } else {
@@ -61,6 +63,7 @@ function run(inputId, outputId) {
     try {
         output.innerHTML=eval(input.value);
     } catch(e) {
+        console.log(e);
         output.innerHTML='Input failed';
     }
     input.focus();
