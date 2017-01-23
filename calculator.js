@@ -50,9 +50,6 @@ function rpnCalculator(str) {
         .forEach(x => {
             var v = parseInt(x);
             if (isNaN(v)) {
-                // all operators take 2 operands, if one is not defined the equation is malformed
-                // order of arguments must match the verbage one(dividedBy(two)) = '12/',
-                // but 1 will not be at the top of the stack
                 const b = stack.pop(), a = stack.pop();
                 acc = operators[x].f(a, b);
                 stack.push(acc);
